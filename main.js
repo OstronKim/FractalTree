@@ -1,4 +1,3 @@
-let tree = [];
 let leaves = [];
 let counter = 0;
 let maxDepth;

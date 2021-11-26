@@ -1,7 +1,9 @@
 function branch(depth, len) {
   let rot = [PI / 4, -PI / 4];
-  let scaleFactor = 0.67;
+  let scaleFactor = 0.75;
   if (depth > maxDepth) {
+    let leaf = new Leaf();
+    leaf.display();
     return;
   }
 
