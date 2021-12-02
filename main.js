@@ -2,10 +2,13 @@ let leaves = [];
 let counter = 0;
 let seed = 80;
 let nrBranches;
+let rs; //Global random seed
 
 let startLength;
 let maxDepth;
 let branchRot;
+
+let randWind = 0;
 
 //Sliders
 let maxDepthSlider;
@@ -16,7 +19,10 @@ let maxDepthLabel;
 let rotLabel;
 
 //Buttons
-let generate;
+let windButton;
+
+//Booleans
+let windEnabled = false;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -33,20 +39,54 @@ function setup() {
   rotLabel = createSpan("Branch angle: " + rotSlider.value().toFixed(3));
   rotLabel.position(150, 40);
 
+  //Buttons
+  windButton = createButton("Enable wind");
+  windButton.position(30, 70);
+  windButton.mousePressed(function () {
+    if (!windEnabled) {
+      windButton.html("Disable wind");
+      windEnabled = true;
+      wind();
+    } else {
+      windButton.html("Enable wind");
+      windEnabled = false;
+    }
+  });
+
   maxDepthSlider.input(sliderInputs);
   rotSlider.input(sliderInputs);
 
-  generate = createButton("generate");
-  generate.position(width / 2 - 80, height + 20);
-  generate.mousePressed(grow);
-
   startLength = 100;
   nrBranches = 2;
+  rs = random(0, 10000);
+  noiseSeed(1000); //1000
 
   sliderInputs();
 }
 
-function grow() {}
+function wind() {
+  if (!windEnabled) {
+    return;
+  }
+
+  let time = millis();
+  randomSeed(rs);
+
+  //let offset = noise(rand3()) - 0.5;
+
+  //Ändra nummret tiden delas med för att justera vindintensiteten.
+  //let offset = noise(time / 20000) - 0.5;
+  let offset = noise(time / 10000) - 0.5;
+
+  //Make the factor before a adjustable parameter. Cap wind at some value
+  randWind = 2 * abs(offset) * offset;
+
+  rs = random(0, 10000); //Change random seed for next iteration
+
+  sliderInputs();
+
+  setTimeout(wind, 10);
+}
 
 function sliderInputs() {
   maxDepth = maxDepthSlider.value();
@@ -63,6 +103,14 @@ function draw() {
   translate(width / 2, height - 50);
   branch(depth, startLength, seed);
 
+  // if(windEnabled){
+  //   loop();
+
+  // } else {
+  //   noLoop();
+  // }
+  // wind();
+
   noLoop();
 }
 
@@ -72,4 +120,10 @@ function rand1() {
 //Random float point between -1,1
 function rand2() {
   return random(2) - 1;
+}
+
+// For noise()-function
+//Steps of 0.005-0.03 work best for most applications, according to p5.js docs
+function rand3() {
+  return random(0.005, 0.03);
 }

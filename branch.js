@@ -17,9 +17,13 @@ function branch(depth, len, rseed) {
   push();
   translate(0, -len);
 
-  rot[0] = branchRot * (1 + rand2());
-  rot[1] = -branchRot * (1 - rand2());
-  rot[2] = branchRot / 2 + rand2();
+  // rot[0] = branchRot * (1 + rand2()); //+randWind
+  // rot[1] = -branchRot * (1 - rand2()); //+randWind
+  // rot[2] = branchRot / 2 + rand2(); //+randWind
+
+  rot[0] = branchRot * (1 + rand2()) + randWind;
+  rot[1] = -branchRot * (1 - rand2()) + randWind;
+  rot[2] = branchRot / (2 + rand2()) + randWind;
 
   for (let i = 0; i < nrBranches; i++) {
     let randSeed = random(1000);
