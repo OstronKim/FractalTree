@@ -1,9 +1,11 @@
 let leaves = [];
 let counter = 0;
 let seed = 80;
-let maxDepth;
-let startLength;
 let nrBranches;
+
+let startLength;
+let maxDepth;
+let branchRot;
 
 //Sliders
 let maxDepthSlider;
@@ -31,24 +33,37 @@ function setup() {
   rotLabel = createSpan("Branch angle: " + rotSlider.value().toFixed(3));
   rotLabel.position(150, 40);
 
+  maxDepthSlider.input(sliderInputs);
+  rotSlider.input(sliderInputs);
+
   generate = createButton("generate");
   generate.position(width / 2 - 80, height + 20);
   generate.mousePressed(grow);
 
   startLength = 100;
   nrBranches = 2;
+
+  sliderInputs();
 }
 
 function grow() {}
 
+function sliderInputs() {
+  maxDepth = maxDepthSlider.value();
+  branchRot = rotSlider.value();
+
+  loop();
+}
+
 function draw() {
   background(0);
 
-  maxDepth = maxDepthSlider.value();
   let depth = 1;
   stroke(255);
   translate(width / 2, height - 50);
   branch(depth, startLength, seed);
+
+  noLoop();
 }
 
 function rand1() {
