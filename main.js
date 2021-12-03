@@ -7,16 +7,22 @@ let rs; //Global random seed
 let startLength;
 let maxDepth;
 let branchRot;
+let branchSize;
+let randLen;
 
 let randWind = 0;
 
 //Sliders
 let maxDepthSlider;
 let rotSlider;
+let sizeSlider;
+let randLenSlider;
 
 //Sliderlabels
 let maxDepthLabel;
 let rotLabel;
+let sizeLabel;
+let randLenLabel;
 
 //Buttons
 let windButton;
@@ -28,20 +34,30 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
 
   //sliders (Lägg i nån funktion?, typ createSLiders())
-  maxDepthSlider = createSlider(0, 12, 9);
+  maxDepthSlider = createSlider(0, 10, 9);
   maxDepthSlider.position(10, 20);
   //Labels i draw function antagligen
   maxDepthLabel = createSpan("Max depth: " + maxDepthSlider.value());
   maxDepthLabel.position(150, 20);
 
-  rotSlider = createSlider(PI / 30, PI / 3, PI / 6, PI / 2 / 50);
+  rotSlider = createSlider(PI / 30, PI / 3, PI / 8, PI / 2 / 50);
   rotSlider.position(10, 40);
   rotLabel = createSpan("Branch angle: " + rotSlider.value().toFixed(3));
   rotLabel.position(150, 40);
 
+  sizeSlider = createSlider(-20, 20, 3, 1);
+  sizeSlider.position(10, 60);
+  sizeLabel = createSpan("Size factor: " + sizeSlider.value());
+  sizeLabel.position(150, 60);
+
+  randLenSlider = createSlider(0, 1, 1, 0.01);
+  randLenSlider.position(10, 80);
+  randLenLabel = createSpan("Random length factor: " + randLenSlider.value());
+  randLenLabel.position(150, 80);
+
   //Buttons
   windButton = createButton("Enable wind");
-  windButton.position(30, 70);
+  windButton.position(30, 200);
   windButton.mousePressed(function () {
     if (!windEnabled) {
       windButton.html("Disable wind");
@@ -55,6 +71,8 @@ function setup() {
 
   maxDepthSlider.input(sliderInputs);
   rotSlider.input(sliderInputs);
+  sizeSlider.input(sliderInputs);
+  randLenSlider.input(sliderInputs);
 
   startLength = 100;
   nrBranches = 2;
@@ -91,6 +109,8 @@ function wind() {
 function sliderInputs() {
   maxDepth = maxDepthSlider.value();
   branchRot = rotSlider.value();
+  branchSize = sizeSlider.value();
+  randLen = randLenSlider.value();
 
   loop();
 }
@@ -126,4 +146,8 @@ function rand2() {
 //Steps of 0.005-0.03 work best for most applications, according to p5.js docs
 function rand3() {
   return random(0.005, 0.03);
+}
+
+function rand4() {
+  return random(-50, 50);
 }
