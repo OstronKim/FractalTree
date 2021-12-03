@@ -9,6 +9,10 @@ let maxDepth;
 let branchRot;
 let branchSize;
 let randLen;
+let branchProb;
+
+let leafSize;
+let leafcolor = []; //r,g,b
 
 let randWind = 0;
 
@@ -17,12 +21,20 @@ let maxDepthSlider;
 let rotSlider;
 let sizeSlider;
 let randLenSlider;
+let branchProbSlider;
+
+let leafSizeSlider;
+let rSlider, gSlider, bSlider;
 
 //Sliderlabels
 let maxDepthLabel;
 let rotLabel;
 let sizeLabel;
 let randLenLabel;
+let branchProbLabel;
+
+let leafSizeLabel;
+let rLabel, gLabel, bLabel;
 
 //Buttons
 let windButton;
@@ -45,19 +57,44 @@ function setup() {
   rotLabel = createSpan("Branch angle: " + rotSlider.value().toFixed(3));
   rotLabel.position(150, 40);
 
-  sizeSlider = createSlider(-20, 20, 3, 1);
+  sizeSlider = createSlider(-10, 30, 10, 1);
   sizeSlider.position(10, 60);
   sizeLabel = createSpan("Size factor: " + sizeSlider.value());
   sizeLabel.position(150, 60);
 
-  randLenSlider = createSlider(0, 1, 1, 0.01);
-  randLenSlider.position(10, 80);
-  randLenLabel = createSpan("Random length factor: " + randLenSlider.value());
-  randLenLabel.position(150, 80);
+  branchProbSlider = createSlider(0.87, 1, 1, 0.01);
+  branchProbSlider.position(10, 80);
+  sizeLabel = createSpan("Branch probability: " + branchProbSlider.value());
+  sizeLabel.position(150, 80);
+
+  leafSizeSlider = createSlider(1, 10, 6, 1);
+  leafSizeSlider.position(10, 150);
+  leafSizeLabel = createSpan("Leaf size: " + leafSizeSlider.value());
+  leafSizeLabel.position(150, 150);
+
+  rSlider = createSlider(0, 255, 0, 5);
+  rSlider.position(10, 170);
+  rLabel = createSpan("Red: " + rSlider.value());
+  rLabel.position(150, 170);
+
+  gSlider = createSlider(0, 255, 255, 5);
+  gSlider.position(10, 190);
+  gLabel = createSpan("Green: " + gSlider.value());
+  gLabel.position(150, 190);
+
+  bSlider = createSlider(0, 255, 100, 5);
+  bSlider.position(10, 210);
+  rLabel = createSpan("Blue: " + bSlider.value());
+  rLabel.position(150, 210);
+
+  // randLenSlider = createSlider(0, 1, 1, 0.01);
+  // randLenSlider.position(10, 80);
+  // randLenLabel = createSpan("Random length factor: " + randLenSlider.value());
+  // randLenLabel.position(150, 80);
 
   //Buttons
   windButton = createButton("Enable wind");
-  windButton.position(30, 200);
+  windButton.position(30, 300);
   windButton.mousePressed(function () {
     if (!windEnabled) {
       windButton.html("Disable wind");
@@ -72,10 +109,16 @@ function setup() {
   maxDepthSlider.input(sliderInputs);
   rotSlider.input(sliderInputs);
   sizeSlider.input(sliderInputs);
-  randLenSlider.input(sliderInputs);
+  branchProbSlider.input(sliderInputs);
+  leafSizeSlider.input(sliderInputs);
+  rSlider.input(sliderInputs);
+  gSlider.input(sliderInputs);
+  bSlider.input(sliderInputs);
+  //randLenSlider.input(sliderInputs);
 
-  startLength = 100;
+  startLength = 150;
   nrBranches = 2;
+  branchProb = 0.99;
   rs = random(0, 10000);
   noiseSeed(1000); //1000
 
@@ -110,7 +153,12 @@ function sliderInputs() {
   maxDepth = maxDepthSlider.value();
   branchRot = rotSlider.value();
   branchSize = sizeSlider.value();
-  randLen = randLenSlider.value();
+  branchProb = branchProbSlider.value();
+  leafSize = leafSizeSlider.value();
+  leafcolor[0] = rSlider.value();
+  leafcolor[1] = gSlider.value();
+  leafcolor[2] = bSlider.value();
+  //randLen = randLenSlider.value();
 
   loop();
 }
@@ -149,5 +197,5 @@ function rand3() {
 }
 
 function rand4() {
-  return random(-50, 50);
+  return random(0, 200);
 }
