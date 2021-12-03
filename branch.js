@@ -1,3 +1,5 @@
+let testVar = 1;
+
 function branch(depth, len, rseed) {
   randomSeed(rseed);
 
@@ -11,7 +13,6 @@ function branch(depth, len, rseed) {
   let scaleFactor = 0.65;
   //let rLen = len * (1 + (2 * noise(rand4()) - 1) * randLen) + branchSize;
   let rLen = len * (1 + noise(rand4()) - 0.5) + branchSize;
-  //console.log(1 + noise(rand4() - 0.5));
   push();
   strokeWeight(
     branchSize / 40 + 10 * Math.pow((maxDepth - depth + 1) / maxDepth, 2)
@@ -38,11 +39,6 @@ function branch(depth, len, rseed) {
       branch(depth + 1, len * scaleFactor, randSeed);
       pop();
     }
-    // let randSeed = random(1000);
-    // push();
-    // rotate(rot[i]);
-    // branch(depth + 1, len * scaleFactor, randSeed);
-    // pop();
   }
 
   pop();

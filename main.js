@@ -1,5 +1,3 @@
-let leaves = [];
-let counter = 0;
 let seed = 80;
 let nrBranches;
 let rs; //Global random seed
@@ -15,35 +13,8 @@ let leafSize;
 let leafcolor = []; //r,g,b
 
 let windFreq, windMag;
-let randWind = 0;
-
-//Sliders
-let maxDepthSlider;
-let rotSlider;
-let sizeSlider;
-let randLenSlider;
-let branchProbSlider;
-
-let leafSizeSlider;
-let rSlider, gSlider, bSlider;
-
-let windFreqSlider;
-let windMagSlider;
-
-//Sliderlabels
-let maxDepthLabel;
-let rotLabel;
-let sizeLabel;
-let randLenLabel;
-let branchProbLabel;
-
-let leafSizeLabel;
-let rLabel, gLabel, bLabel;
-
-let windFreqLabel, windMagLabel;
-
-//Buttons
-let windButton;
+let randWind;
+let maxWindFreq;
 
 //Booleans
 let windEnabled = false;
@@ -51,94 +22,15 @@ let windEnabled = false;
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  //sliders (Lägg i nån funktion?, typ createSLiders())
-  maxDepthSlider = createSlider(0, 10, 9);
-  maxDepthSlider.position(10, 20);
-  //Labels i draw function antagligen
-  maxDepthLabel = createSpan("Max depth: " + maxDepthSlider.value());
-  maxDepthLabel.position(150, 20);
+  createGUI();
 
-  rotSlider = createSlider(PI / 30, PI / 3, PI / 8, PI / 2 / 50);
-  rotSlider.position(10, 40);
-  rotLabel = createSpan("Branch angle: " + rotSlider.value().toFixed(3));
-  rotLabel.position(150, 40);
-
-  sizeSlider = createSlider(-10, 30, 10, 1);
-  sizeSlider.position(10, 60);
-  sizeLabel = createSpan("Size factor: " + sizeSlider.value());
-  sizeLabel.position(150, 60);
-
-  branchProbSlider = createSlider(0.87, 1, 1, 0.01);
-  branchProbSlider.position(10, 80);
-  sizeLabel = createSpan("Branch probability: " + branchProbSlider.value());
-  sizeLabel.position(150, 80);
-
-  leafSizeSlider = createSlider(1, 10, 6, 1);
-  leafSizeSlider.position(10, 150);
-  leafSizeLabel = createSpan("Leaf size: " + leafSizeSlider.value());
-  leafSizeLabel.position(150, 150);
-
-  rSlider = createSlider(0, 255, 0, 5);
-  rSlider.position(10, 170);
-  rLabel = createSpan("Red: " + rSlider.value());
-  rLabel.position(150, 170);
-
-  gSlider = createSlider(0, 255, 255, 5);
-  gSlider.position(10, 190);
-  gLabel = createSpan("Green: " + gSlider.value());
-  gLabel.position(150, 190);
-
-  bSlider = createSlider(0, 255, 100, 5);
-  bSlider.position(10, 210);
-  rLabel = createSpan("Blue: " + bSlider.value());
-  rLabel.position(150, 210);
-
-  windFreqSlider = createSlider(5000, 25000, 10000, 500);
-  windFreqSlider.position(10, 300);
-  windFreqLabel = createSpan("Wind frequency: " + windFreqSlider.value());
-  windFreqLabel.position(150, 300);
-
-  windMagSlider = createSlider(1, 4, 2, 0.1);
-  windMagSlider.position(10, 320);
-  windMagLabel = createSpan("Wind Magnitude: " + windMagSlider.value());
-  windMagLabel.position(150, 320);
-
-  // randLenSlider = createSlider(0, 1, 1, 0.01);
-  // randLenSlider.position(10, 80);
-  // randLenLabel = createSpan("Random length factor: " + randLenSlider.value());
-  // randLenLabel.position(150, 80);
-
-  //Buttons
-  windButton = createButton("Enable wind");
-  windButton.position(30, 500);
-  windButton.mousePressed(function () {
-    if (!windEnabled) {
-      windButton.html("Disable wind");
-      windEnabled = true;
-      wind();
-    } else {
-      windButton.html("Enable wind");
-      windEnabled = false;
-    }
-  });
-
-  maxDepthSlider.input(sliderInputs);
-  rotSlider.input(sliderInputs);
-  sizeSlider.input(sliderInputs);
-  branchProbSlider.input(sliderInputs);
-  leafSizeSlider.input(sliderInputs);
-  rSlider.input(sliderInputs);
-  gSlider.input(sliderInputs);
-  bSlider.input(sliderInputs);
-  windFreqSlider.input(sliderInputs);
-  windMagSlider.input(sliderInputs);
-  //randLenSlider.input(sliderInputs);
-
+  //Some setup variables
   startLength = 150;
   nrBranches = 2;
-  branchProb = 0.99;
+  maxWindFreq = 30000;
+  randWind = 0;
   rs = random(0, 10000);
-  noiseSeed(1000); //1000
+  noiseSeed(1000);
 
   sliderInputs();
 }
@@ -151,17 +43,23 @@ function wind() {
   let time = millis();
   randomSeed(rs);
 
-  //Ju mindre term innanför noise desto långsammare vind
-  let maxWindFreq = 30000;
   let offset = noise(time / (maxWindFreq - windFreq)) - 0.5;
-
   randWind = windMag * abs(offset) * offset;
-
   rs = random(0, 10000); //Change random seed for next iteration
 
   sliderInputs();
-
   setTimeout(wind, 10);
+}
+
+function draw() {
+  background(0);
+
+  let depth = 1;
+  stroke(255);
+  translate(width / 2, height - 50);
+  branch(depth, startLength, seed);
+
+  noLoop();
 }
 
 function sliderInputs() {
@@ -175,28 +73,20 @@ function sliderInputs() {
   leafcolor[2] = bSlider.value();
   windFreq = windFreqSlider.value();
   windMag = windMagSlider.value();
-  //randLen = randLenSlider.value();
+
+  //Update labels
+  maxDepthLabel.html("Max depth: " + maxDepth);
+  rotLabel.html("Branch angle: " + branchRot.toFixed(3));
+  sizeLabel.html("size factor: " + branchSize);
+  branchProbLabel.html("Branch probability: " + branchProb);
+  leafSizeLabel.html("Leaf size: " + leafSize);
+  rLabel.html("Red: " + leafcolor[0]);
+  gLabel.html("Green: " + leafcolor[1]);
+  bLabel.html("Blue: " + leafcolor[2]);
+  windFreqLabel.html("Wind frequency: " + windFreq);
+  windMagLabel.html("Wind Magnitude: " + windMag);
 
   loop();
-}
-
-function draw() {
-  background(0);
-
-  let depth = 1;
-  stroke(255);
-  translate(width / 2, height - 50);
-  branch(depth, startLength, seed);
-
-  // if(windEnabled){
-  //   loop();
-
-  // } else {
-  //   noLoop();
-  // }
-  // wind();
-
-  noLoop();
 }
 
 function rand1() {
