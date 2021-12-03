@@ -14,6 +14,7 @@ let branchProb;
 let leafSize;
 let leafcolor = []; //r,g,b
 
+let windFreq, windMag;
 let randWind = 0;
 
 //Sliders
@@ -26,6 +27,9 @@ let branchProbSlider;
 let leafSizeSlider;
 let rSlider, gSlider, bSlider;
 
+let windFreqSlider;
+let windMagSlider;
+
 //Sliderlabels
 let maxDepthLabel;
 let rotLabel;
@@ -35,6 +39,8 @@ let branchProbLabel;
 
 let leafSizeLabel;
 let rLabel, gLabel, bLabel;
+
+let windFreqLabel, windMagLabel;
 
 //Buttons
 let windButton;
@@ -87,6 +93,16 @@ function setup() {
   rLabel = createSpan("Blue: " + bSlider.value());
   rLabel.position(150, 210);
 
+  windFreqSlider = createSlider(5000, 25000, 10000, 500);
+  windFreqSlider.position(10, 300);
+  windFreqLabel = createSpan("Wind frequency: " + windFreqSlider.value());
+  windFreqLabel.position(150, 300);
+
+  windMagSlider = createSlider(1, 4, 2, 0.1);
+  windMagSlider.position(10, 320);
+  windMagLabel = createSpan("Wind Magnitude: " + windMagSlider.value());
+  windMagLabel.position(150, 320);
+
   // randLenSlider = createSlider(0, 1, 1, 0.01);
   // randLenSlider.position(10, 80);
   // randLenLabel = createSpan("Random length factor: " + randLenSlider.value());
@@ -94,7 +110,7 @@ function setup() {
 
   //Buttons
   windButton = createButton("Enable wind");
-  windButton.position(30, 300);
+  windButton.position(30, 500);
   windButton.mousePressed(function () {
     if (!windEnabled) {
       windButton.html("Disable wind");
@@ -114,6 +130,8 @@ function setup() {
   rSlider.input(sliderInputs);
   gSlider.input(sliderInputs);
   bSlider.input(sliderInputs);
+  windFreqSlider.input(sliderInputs);
+  windMagSlider.input(sliderInputs);
   //randLenSlider.input(sliderInputs);
 
   startLength = 150;
@@ -133,14 +151,11 @@ function wind() {
   let time = millis();
   randomSeed(rs);
 
-  //let offset = noise(rand3()) - 0.5;
+  //Ju mindre term innanför noise desto långsammare vind
+  let maxWindFreq = 30000;
+  let offset = noise(time / (maxWindFreq - windFreq)) - 0.5;
 
-  //Ändra nummret tiden delas med för att justera vindintensiteten.
-  //let offset = noise(time / 20000) - 0.5;
-  let offset = noise(time / 10000) - 0.5;
-
-  //Make the factor before a adjustable parameter. Cap wind at some value
-  randWind = 2 * abs(offset) * offset;
+  randWind = windMag * abs(offset) * offset;
 
   rs = random(0, 10000); //Change random seed for next iteration
 
@@ -158,6 +173,8 @@ function sliderInputs() {
   leafcolor[0] = rSlider.value();
   leafcolor[1] = gSlider.value();
   leafcolor[2] = bSlider.value();
+  windFreq = windFreqSlider.value();
+  windMag = windMagSlider.value();
   //randLen = randLenSlider.value();
 
   loop();
