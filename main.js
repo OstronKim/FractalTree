@@ -19,6 +19,10 @@ let maxWindFreq;
 //Booleans
 let windEnabled = false;
 
+let snowflakes = [];
+
+let testrs;
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
@@ -32,6 +36,8 @@ function setup() {
   rs = random(0, 10000);
   noiseSeed(1000);
 
+  testrs = rs;
+
   sliderInputs();
 }
 
@@ -44,22 +50,41 @@ function wind() {
   randomSeed(rs);
 
   let offset = noise(time / (maxWindFreq - windFreq)) - 0.5;
-  randWind = windMag * abs(offset) * offset;
+  randWind = 10 * windMag * abs(offset) * offset;
   rs = random(0, 10000); //Change random seed for next iteration
 
   sliderInputs();
   setTimeout(wind, 10);
+
+  noStroke();
 }
 
 function draw() {
   background(0);
+
+  fill(240);
+  noStroke();
+  testrs = random(1000);
+  randomSeed(millis());
+  let t = frameCount / 60; // update time
+
+  // create a random number of snowflakes each frame
+  for (let i = 0; i < 5; i++) {
+    snowflakes.push(new snowflake()); // append snowflake object
+  }
+
+  // loop through snowflakes with a for..of loop
+  for (let flake of snowflakes) {
+    flake.update(t); // update snowflake position
+    flake.display(); // draw snowflake
+  }
 
   let depth = 1;
   stroke(255);
   translate(width / 2, height - 50);
   branch(depth, startLength, seed);
 
-  noLoop();
+  //noLoop();
 }
 
 function sliderInputs() {
@@ -105,4 +130,38 @@ function rand3() {
 
 function rand4() {
   return random(0, 200);
+}
+
+// snowflake class
+function snowflake() {
+  // initialize coordinates
+  this.posX = 0;
+  this.posY = random(-50, 0);
+  this.initialangle = random(0, 2 * PI);
+  this.size = random(2, 5);
+  this.width = 400;
+
+  // radius of snowflake spiral
+  // chosen so the snowflakes are uniformly spread out in area
+  this.radius = sqrt(random(pow(width / 2, 2)));
+
+  this.update = function (time) {
+    // x position follows a circle
+    let w = 0.6; // angular speed
+    let angle = w * time + this.initialangle;
+    this.posX = width / 2 + this.radius * sin(angle);
+
+    // different size snowflakes fall at slightly different y speeds
+    this.posY += pow(this.size, 0.5);
+
+    // delete snowflake if past end of screen
+    if (this.posY > height) {
+      let index = snowflakes.indexOf(this);
+      snowflakes.splice(index, 1);
+    }
+  };
+
+  this.display = function () {
+    ellipse(this.posX, this.posY, this.size);
+  };
 }
