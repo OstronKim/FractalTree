@@ -19,8 +19,17 @@ let maxWindFreq;
 //Booleans
 let windEnabled = false;
 
+let theShader;
+let shaderGraphics;
+
+function preload() {
+  theShader = loadShader("snowShader.vert", "snowShader.frag");
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  //Create the shader graphics "canvas"
+  shaderGraphics = createGraphics(width, height, WEBGL);
 
   createGUI();
 
@@ -53,6 +62,15 @@ function wind() {
 
 function draw() {
   background(0);
+
+  //Activate the shader
+  shaderGraphics.shader(theShader);
+
+  //Send resolution of canvas to shader
+  theShader.setUniform("u_resolution", [width, height]);
+  //we draw the shader on a geometry object
+  shaderGraphics.rect(0, 0, width, height);
+  image(shaderGraphics, 0, 0, width, height);
 
   let depth = 1;
   stroke(255);
