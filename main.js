@@ -78,7 +78,7 @@ function draw() {
   translate(width / 2, height - 50);
   branch(depth, startLength, seed);
 
-  noLoop();
+  //noLoop();
 }
 
 function sliderInputs() {
