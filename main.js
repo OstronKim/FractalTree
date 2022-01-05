@@ -66,8 +66,9 @@ function draw() {
   //Activate the shader
   shaderGraphics.shader(theShader);
 
-  //Send resolution of canvas to shader
+  //send some information to shader
   theShader.setUniform("u_resolution", [width, height]);
+  theShader.setUniform("u_time", millis() / 1000.0);
   //we draw the shader on a geometry object
   shaderGraphics.rect(0, 0, width, height);
   image(shaderGraphics, 0, 0, width, height);
