@@ -10,7 +10,7 @@ const float num_flakes = 200.0;
 //Based on explanation from TheBookOfShaders
 float snowflake(vec2 center, float radius, vec2 _st)
 {
-    return 1.0 - sqrt(smoothstep(0.00, radius, length(_st - center)));
+    return 1.0 - smoothstep(0.00, radius, length(_st - center));
 }
 //Simple pseudorandom function. 
 // From https://stackoverflow.com/questions/4200224/random-noise-functions-for-glsl
@@ -26,10 +26,10 @@ void main() {
 
   for(float i = 1.0; i <= num_flakes; i++){
 
-    //Want some random size on the flakes
-    float size = 0.005 * (1.0 + rand(i));
-    //Also random y-speed
-    float y_speed = 0.01 * size * 0.75 + rand(i);
+    //Randomize size of flakes
+    float size = 0.005 + 0.01*rand(sin(i))*sin(i/num_flakes);
+    //random y-speed. Dependent on flake size
+    float y_speed = size*25.;
 
     //Update the x and y position every frame
     vec2 center = vec2(0.0);
