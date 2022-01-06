@@ -16,6 +16,9 @@ let windFreq, windMag;
 let randWind;
 let maxWindFreq;
 
+let num_flakes;
+let snowstormFactor;
+
 //Booleans
 let windEnabled = false;
 
@@ -69,6 +72,8 @@ function draw() {
   //send some information to shader
   theShader.setUniform("u_resolution", [width, height]);
   theShader.setUniform("u_time", millis() / 1000.0);
+  theShader.setUniform("u_num_flakes", num_flakes);
+  theShader.setUniform("u_snowstorm_factor", snowstormFactor);
   //we draw the shader on a geometry object
   shaderGraphics.rect(0, 0, width, height);
   image(shaderGraphics, 0, 0, width, height);
@@ -92,6 +97,8 @@ function sliderInputs() {
   leafcolor[2] = bSlider.value();
   windFreq = windFreqSlider.value();
   windMag = windMagSlider.value();
+  num_flakes = snowAmountSlider.value();
+  snowstormFactor = snowstormFactorSlider.value();
 
   //Update labels
   maxDepthLabel.html("Max depth: " + maxDepth);
@@ -104,6 +111,8 @@ function sliderInputs() {
   bLabel.html("Blue: " + leafcolor[2]);
   windFreqLabel.html("Wind frequency: " + windFreq);
   windMagLabel.html("Wind Magnitude: " + windMag);
+  snowAmountLabel.html("Snow amount: " + num_flakes);
+  snowstormFactorLabel.html("Snowstorm factor: " + snowstormFactor);
 
   loop();
 }

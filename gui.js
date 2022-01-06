@@ -11,6 +11,9 @@ let rSlider, gSlider, bSlider;
 let windFreqSlider;
 let windMagSlider;
 
+let snowAmountSlider;
+let snowstormFactorSlider;
+
 //Sliderlabels
 let maxDepthLabel;
 let rotLabel;
@@ -23,13 +26,16 @@ let rLabel, gLabel, bLabel;
 
 let windFreqLabel, windMagLabel;
 
+let snowAmountLabel;
+let snowstormFactorLabel;
+
 //Buttons
 let windButton;
 
 function createGUI() {
   maxDepthSlider = createSlider(0, 10, 9);
   maxDepthSlider.position(10, 20);
-  //Labels i draw function antagligen
+
   maxDepthLabel = createSpan("Max depth: " + maxDepthSlider.value());
   maxDepthLabel.position(150, 20);
 
@@ -80,6 +86,18 @@ function createGUI() {
   windMagLabel = createSpan("Wind Magnitude: " + windMagSlider.value());
   windMagLabel.position(150, 320);
 
+  snowAmountSlider = createSlider(0, 800, 200, 1);
+  snowAmountSlider.position(10, 400);
+  snowAmountLabel = createSpan("Snow amount: " + snowAmountSlider.value());
+  snowAmountLabel.position(150, 400);
+
+  snowstormFactorSlider = createSlider(0, 2, 0, 0.1);
+  snowstormFactorSlider.position(10, 420);
+  snowstormFactorLabel = createSpan(
+    "Snowstorm factor: " + snowstormFactorSlider.value()
+  );
+  snowstormFactorLabel.position(150, 420);
+
   //Buttons
   windButton = createButton("Enable wind");
   windButton.position(30, 500);
@@ -104,4 +122,6 @@ function createGUI() {
   bSlider.input(sliderInputs);
   windFreqSlider.input(sliderInputs);
   windMagSlider.input(sliderInputs);
+  snowAmountSlider.input(sliderInputs);
+  snowstormFactorSlider.input(sliderInputs);
 }
