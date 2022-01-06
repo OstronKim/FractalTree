@@ -32,6 +32,7 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  pixelDensity(1);
   //createCanvas(1300, 950);
   //Create the shader graphics "canvas"
   shaderGraphics = createGraphics(width, height, WEBGL);
