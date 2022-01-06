@@ -25,6 +25,7 @@ float rand(float seed)
 void main() {
   vec2 st = gl_FragCoord.xy/u_resolution.xy;
   vec3 color = vec3(0.0);
+  float background_gradient = (1.0-float(gl_FragCoord.y / u_resolution.x))*0.6;
   //const int num_flakes = u_num_flakes;
 
   for(float i = 1.0; i <= max_flakes; i++){
@@ -43,5 +44,5 @@ void main() {
     color += vec3(snowflake(center,size,st));
   }
 
-  gl_FragColor = vec4(color,1.0); 
+  gl_FragColor = vec4(color,1.0)+ background_gradient*vec4(0.1,0.4,1.0,0.0); 
 }
