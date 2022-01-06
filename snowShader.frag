@@ -39,7 +39,7 @@ void main() {
 
     //Update the x and y position every frame
     vec2 center = vec2(0.0);
-    center.x = -0.3 + rand(i) * 1.4 + u_snowstorm_factor*abs(cos(u_time+sin(i)));
+    center.x = -0.3 + rand(i) * 1.4 + 0.75*u_snowstorm_factor*abs(cos(u_time+sin(i)));
     center.y = fract(sin(i) - y_speed * u_time);
 
     color += vec3(snowflake(center,size/1.5,st));
