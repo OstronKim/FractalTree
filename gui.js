@@ -45,7 +45,7 @@ function createGUI() {
   rotLabel = createSpan("Branch angle: " + rotSlider.value().toFixed(3));
   rotLabel.position(150, 40);
 
-  sizeSlider = createSlider(-10, 30, 10, 1);
+  sizeSlider = createSlider(-10, 30, 20, 1);
   sizeSlider.position(10, 60);
   sizeLabel = createSpan("Size factor: " + sizeSlider.value());
   sizeLabel.position(150, 60);

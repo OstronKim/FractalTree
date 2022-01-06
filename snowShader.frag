@@ -23,7 +23,8 @@ float rand(float seed)
 }
 
 void main() {
-  vec2 st = gl_FragCoord.xy/u_resolution.xy;
+  vec2 st = gl_FragCoord.xy/u_resolution.xy ;
+  //st.x = -0.6 +2.0*gl_FragCoord.x/u_resolution.x;
   vec3 color = vec3(0.0);
   float background_gradient = (1.0-float(gl_FragCoord.y / u_resolution.x))*0.6;
   //const int num_flakes = u_num_flakes;
@@ -32,16 +33,16 @@ void main() {
     if(i > u_num_flakes){break;} //Hack around for-loop non-const comparison
 
     //Randomize size of flakes
-    float size = 0.005 + 0.01*rand(sin(i))*sin(i/u_num_flakes);
+    float size = 0.001+ 0.01*rand(sin(i))*sin(i/u_num_flakes);
     //random y-speed. Dependent on flake size
-    float y_speed = size*25.;
+    float y_speed = size*30.;
 
     //Update the x and y position every frame
     vec2 center = vec2(0.0);
     center.x = -0.3 + rand(i) * 1.4 + u_snowstorm_factor*abs(cos(u_time+sin(i)));
     center.y = fract(sin(i) - y_speed * u_time);
 
-    color += vec3(snowflake(center,size,st));
+    color += vec3(snowflake(center,size/1.5,st));
   }
 
   gl_FragColor = vec4(color,1.0)+ background_gradient*vec4(0.1,0.4,1.0,0.0); 

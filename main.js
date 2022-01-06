@@ -32,6 +32,7 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  //createCanvas(1300, 950);
   //Create the shader graphics "canvas"
   shaderGraphics = createGraphics(width, height, WEBGL);
 
@@ -85,7 +86,7 @@ function draw() {
   image(shaderGraphics, 0, 0, width, height);
 
   let depth = 1;
-  stroke(255);
+  stroke(146, 93, 81);
   translate(width / 2, height - 50);
   branch(depth, startLength, seed);
 
