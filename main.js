@@ -24,6 +24,7 @@ let windEnabled = false;
 
 let theShader;
 let shaderGraphics;
+let snowEnabled;
 
 function preload() {
   theShader = loadShader("snowShader.vert", "snowShader.frag");
@@ -43,6 +44,7 @@ function setup() {
   randWind = 0;
   rs = random(0, 10000);
   noiseSeed(1000);
+  snowEnabled = true;
 
   sliderInputs();
 }
@@ -72,7 +74,11 @@ function draw() {
   //send some information to shader
   theShader.setUniform("u_resolution", [width, height]);
   theShader.setUniform("u_time", millis() / 1000.0);
-  theShader.setUniform("u_num_flakes", num_flakes);
+  if (snowEnabled) {
+    theShader.setUniform("u_num_flakes", num_flakes);
+  } else {
+    theShader.setUniform("u_num_flakes", 0);
+  }
   theShader.setUniform("u_snowstorm_factor", snowstormFactor);
   //we draw the shader on a geometry object
   shaderGraphics.rect(0, 0, width, height);

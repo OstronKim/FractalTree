@@ -31,6 +31,7 @@ let snowstormFactorLabel;
 
 //Buttons
 let windButton;
+let snowButton;
 
 function createGUI() {
   maxDepthSlider = createSlider(0, 10, 9);
@@ -91,7 +92,7 @@ function createGUI() {
   snowAmountLabel = createSpan("Snow amount: " + snowAmountSlider.value());
   snowAmountLabel.position(150, 400);
 
-  snowstormFactorSlider = createSlider(0, 2, 0, 0.1);
+  snowstormFactorSlider = createSlider(0, 1, 0, 0.1);
   snowstormFactorSlider.position(10, 420);
   snowstormFactorLabel = createSpan(
     "Snowstorm factor: " + snowstormFactorSlider.value()
@@ -109,6 +110,18 @@ function createGUI() {
     } else {
       windButton.html("Enable wind");
       windEnabled = false;
+    }
+  });
+
+  snowButton = createButton("Disable snow");
+  snowButton.position(30, 530);
+  snowButton.mousePressed(function () {
+    if (!snowEnabled) {
+      snowButton.html("Disable snow");
+      snowEnabled = true;
+    } else {
+      snowButton.html("Enable snow");
+      snowEnabled = false;
     }
   });
 
