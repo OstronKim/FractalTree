@@ -87,7 +87,7 @@ function createGUI() {
   windMagLabel = createSpan("Wind Magnitude: " + windMagSlider.value());
   windMagLabel.position(150, 320);
 
-  snowAmountSlider = createSlider(0, 800, 200, 1);
+  snowAmountSlider = createSlider(0, 1000, 300, 1);
   snowAmountSlider.position(10, 400);
   snowAmountLabel = createSpan("Snow amount: " + snowAmountSlider.value());
   snowAmountLabel.position(150, 400);

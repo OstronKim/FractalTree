@@ -23,11 +23,9 @@ float rand(float seed)
 }
 
 void main() {
-  vec2 st = gl_FragCoord.xy/u_resolution.xy ;
-  //st.x = -0.6 +2.0*gl_FragCoord.x/u_resolution.x;
+  vec2 st = gl_FragCoord.xy/u_resolution.xy;
   vec3 color = vec3(0.0);
   float background_gradient = (1.0-float(gl_FragCoord.y / u_resolution.x))*0.6;
-  //const int num_flakes = u_num_flakes;
 
   for(float i = 1.0; i <= max_flakes; i++){
     if(i > u_num_flakes){break;} //Hack around for-loop non-const comparison

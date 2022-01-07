@@ -31,9 +31,8 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
   pixelDensity(1);
-  //createCanvas(1300, 950);
+  createCanvas(1100, 750);
   //Create the shader graphics "canvas"
   shaderGraphics = createGraphics(width, height, WEBGL);
 
@@ -90,8 +89,6 @@ function draw() {
   stroke(146, 93, 81);
   translate(width / 2, height - 50);
   branch(depth, startLength, seed);
-
-  //noLoop();
 }
 
 function sliderInputs() {
