@@ -87,7 +87,7 @@ function draw() {
 
   let depth = 1;
   stroke(146, 93, 81);
-  translate(width / 2, height - 50);
+  translate(width / 2, height - 5);
   branch(depth, startLength, seed);
 }
 
