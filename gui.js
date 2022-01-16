@@ -92,7 +92,7 @@ function createGUI() {
   snowAmountLabel = createSpan("Snow amount: " + snowAmountSlider.value());
   snowAmountLabel.position(150, 400);
 
-  snowstormFactorSlider = createSlider(0, 0.5, 0, 0.05);
+  snowstormFactorSlider = createSlider(0, 0.5, 0.1, 0.05);
   snowstormFactorSlider.position(10, 420);
   snowstormFactorLabel = createSpan(
     "Snowstorm factor: " + snowstormFactorSlider.value()

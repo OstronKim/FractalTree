@@ -14,9 +14,7 @@ float snowflake(vec2 center, float radius, vec2 _st)
 {
     return 1.0 - smoothstep(0.00, radius, length(_st - center));
 }
-//Simple pseudorandom function. 
-// From https://stackoverflow.com/questions/4200224/random-noise-functions-for-glsl
-//Slightly modified
+//Simple pseudorandom function. From TheBookOfShaders, page 10. Slightly modified
 float rand(float seed)
 {
     return fract(sin(dot(vec2(seed,47.57384/seed), vec2(12.9898, 78.233)))* (43758.5453));
@@ -31,9 +29,9 @@ void main() {
     if(i > u_num_flakes){break;} //Hack around for-loop non-const comparison
 
     //Randomize size of flakes
-    float size = 0.001+ 0.01*rand(sin(i))*sin(i/u_num_flakes);
+    float size = 0.002 + 0.01*rand(sin(i))*sin(i/u_num_flakes);
     //random y-speed. Dependent on flake size
-    float y_speed = size*30.;
+    float y_speed = size*40.;
 
     //Update the x and y position every frame
     vec2 center = vec2(0.0);

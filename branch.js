@@ -33,7 +33,7 @@ function branch(depth, len, rseed) {
 
   for (let i = 0; i < nrBranches; i++) {
     let randSeed = random(1000);
-    if (random() < branchProb) {
+    if (random() <= branchProb) {
       push();
       rotate(rot[i]);
       branch(depth + 1, len * scaleFactor, randSeed);
